@@ -6,6 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+1.`npm run devStart` on 3000 to start server.js
+
+2. `npm start` on 3001 to start App.js
+
 ### `npm start`
 
 Runs the app in the development mode.\

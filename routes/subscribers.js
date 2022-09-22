@@ -4,15 +4,18 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
+    console.log("*** get find0");
     const subscribers = await Subscriber.find();
+    console.log("*** get find:", subscribers);
     res.json(subscribers);
     // res.send("Hello");
   } catch (err) {
+    console.log("*** get err", err);
     res.status(500).json({ message: err.message });
   }
 });
 
-router.get("/:id", getSubscriber, async (req, res) => {
+router.get("/:id", getSubscriber, (req, res) => {
   res.send(res.subscriber);
 });
 
@@ -45,12 +48,13 @@ async function getSubscriber(req, res, next) {
     if (!response) {
       return res.status(404).json({ message: "Cannot find data" });
     }
+    console.log("*** response", response);
     res.status(200).json(response);
   } catch (err) {
+    console.log("*** err", err);
     return res.status(400).json({ message: err.message });
   }
   res.subscriber = response;
-  next();
 }
 
 module.exports = router;

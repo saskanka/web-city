@@ -29,17 +29,20 @@ const fetchUserFailure = (error) => {
   };
 };
 
-const fetchUsers = () => {
+export const fetchUsers = () => {
   return function (dispatch) {
     dispatch(fetchUserRequest());
     axios
-      .get("http://localhost:8080/city")
+      .get("http://localhost:3000/subscribers")
       .then((response) => {
-        const users = response.data.map((user) => user.id);
+        const users = response.data.map((user) => ({
+          name: user.name,
+          channel: user.channel,
+        }));
+        console.log("*** action users", users);
         dispatch(fetchUserSuccess(users));
       })
       .catch((error) => {
-        console.log("*** ", error.message);
         dispatch(fetchUserFailure(error.message));
       });
   };
@@ -80,12 +83,14 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-// to run this file - node src/asyncActions.js
+// node src/asyncActions.js
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, logger));
 console.log("initial state", store.getState());
 const unsubscribe = store.subscribe(() => {
   console.log("Update state", store.getState());
 });
-store.dispatch(fetchUsers());
-unsubscribe();
+// store.dispatch(fetchUsers());
+// unsubscribe();
+
+export default store;
